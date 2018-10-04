@@ -20,6 +20,8 @@ else {
     }
   });
 
+  function (err, content) -> Callback! This function is CALLED when the file
+                             is done being read!
   */
 
   content = fs.readFile('Sample.txt', 'ascii', (err, content) => {
