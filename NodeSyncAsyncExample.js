@@ -24,10 +24,19 @@ else {
                              is done being read!
   */
 
-  content = fs.readFile('Sample.txt', 'ascii', (err, content) => {
-    if (err === null) {
-      console.log(content);
-    }
-  });
+  fs.readFile('Sample.txt', 'ascii')
+    .then((err, data) => {
+      if (err === null) {
+        content = data;
+        console.log(content);
+      }
+    });
+
+  // fs.readFile('Sample.txt', 'ascii', (err, data) => {
+  //   if (err === null) {
+  //     content = data;
+  //     console.log(content);
+  //   }
+  // });
   console.log(`Moved past call to readFile function, content = ${content}`);
 }

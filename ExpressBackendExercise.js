@@ -22,6 +22,13 @@ server.get('/character/:id', (req, res, next) => {
     });
 });
 
+/*
+ * Route Documentation
+ */
+server.get(/* URL */, (req, res, next) => {
+  /* LOGIC */
+});
+
 /* Start server */
 server.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
