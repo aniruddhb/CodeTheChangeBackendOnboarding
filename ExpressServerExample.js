@@ -19,10 +19,17 @@ server.get('/api/io/:input', (req, res, next) => {
   res.send(req.params.input);
 });
 
-
 /* POST */
 server.post('/api/io', (req, res, next) => {
   res.send(req.body);
+});
+
+server.post('/api/io1', (req, res, next) => {
+  if (!req.body.key1 || !req.body.key2) {
+    res.sendStatus(400);
+  } else {
+    res.send(`${req.body.key1} and ${req.body.key2}`);
+  }
 });
 
 /* Start server */
