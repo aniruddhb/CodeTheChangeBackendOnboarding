@@ -73,5 +73,5 @@ For your exercise, you will be writing another route. A stub has been provided,
 but you'll have to fill in the rest!
 
 1. Given an integer `id` as a query parameter, create a route that returns the name of all vehicles that are used by the SW character corresponding to `id`
-2. **Bonus Route**: Given a list of integers `ids` in the request body that corresponds to a list of SW characters, construct a route that returns a list of all unique vehicles
-used by said characters
+2. **Bonus Route**: Create a route that returns a list of all SW characters given by the SW API
+3. **Bonus Route**: Given a list of integers `ids` in the request body that corresponds to a list of SW characters, construct a route that returns a list of all unique vehicles used by said characters
