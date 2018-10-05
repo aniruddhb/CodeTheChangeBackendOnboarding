@@ -9,8 +9,15 @@
     "isomorphic-unfetch": "^3.0.0"
   },
   "scripts": {
-    "async:example": "node NodeSyncAsyncExample.js",
-    "start:example": "node ExpressServerExample.js",
-    "start:exercise": "node ExpressBackendExercise.js"
+    "async:example": "npx babel-node NodeSyncAsyncExample.js",
+    "start:example": "npx babel-node ExpressServerExample.js",
+    "start:exercise": "npx babel-node ExpressBackendExercise.js",
+    "start:exercise:solution": "npx babel-node ExpressBackendExerciseSolution.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.0"
   }
 }

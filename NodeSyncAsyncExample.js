@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const ASYNC = true;
+const ASYNC = false;
 
 /* Store file content in this variable */
 let content = undefined;
@@ -24,19 +24,11 @@ else {
                              is done being read!
   */
 
-  fs.readFile('Sample.txt', 'ascii')
-    .then((err, data) => {
-      if (err === null) {
-        content = data;
-        console.log(content);
-      }
-    });
-
-  // fs.readFile('Sample.txt', 'ascii', (err, data) => {
-  //   if (err === null) {
-  //     content = data;
-  //     console.log(content);
-  //   }
-  // });
+  fs.readFile('Sample.txt', 'ascii', (err, data) => {
+    if (err === null) {
+      content = data;
+      console.log(content);
+    }
+  });
   console.log(`Moved past call to readFile function, content = ${content}`);
 }

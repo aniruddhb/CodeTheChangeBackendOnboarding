@@ -53,6 +53,35 @@ server.get('/character/:id/vehicles', (req, res, next) => {
     });
 });
 
+/*
+ * Route Documentation for Reference Solution
+ *
+ * Route Input:
+ *  - Nothing
+ *
+ * Route Output:
+ *  - List of strings, where each string represents the name of a SW character
+ *
+ */
+server.get('/allcharacters', async (req, res, next) => {
+  let url = `${SWAPI_URL}/people`;
+
+  const people = [];
+  while (url !== undefined && url !== null) {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const characters = data.results;
+    for (let i = 0; i < characters.length; i++) {
+      people.push(characters[i].name);
+    }
+
+    url = data.next;
+  }
+  console.log(people.length);
+  res.send(people);
+});
+
 /* Start server */
 server.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
