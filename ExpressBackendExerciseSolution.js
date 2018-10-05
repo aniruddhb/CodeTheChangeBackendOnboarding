@@ -25,7 +25,11 @@ server.get('/character/:id', (req, res, next) => {
 });
 
 /*
- * Route Documentation for Reference Solution
+ * This way of writing this route uses the old, Promise-based JS syntax.
+ * Notice how much extra code/funk we need compared to the solution below,
+ * which uses async/await syntax.
+ *
+ * Route Documentation for Reference Solution to Route 1
  *
  * Route Input:
  *  - Query Parameter: Integer representing a SW Character
@@ -34,7 +38,7 @@ server.get('/character/:id', (req, res, next) => {
  * - List of strings, where each string represents the name of a vehicle used
  *   by the character given by the query parameter
  */
-server.get('/character/:id/vehicles', (req, res, next) => {
+server.get('/old/character/:id/vehicles', (req, res, next) => {
   fetch(`${SWAPI_URL}/people/${req.params.id}`)
     .then(response => response.json())
     .then(data => data.vehicles)
@@ -54,7 +58,37 @@ server.get('/character/:id/vehicles', (req, res, next) => {
 });
 
 /*
- * Route Documentation for Reference Solution
+ * This way of writing the route uses new async/await syntax. Notice
+ * how both fetch() and .json() function calls are async. This means
+ * that fetching data over the network AND extracting a JSON from the
+ * server response are BOTH asynchronous operations.
+ *
+ * Route Documentation for Reference Solution to Route 1
+ *
+ * Route Input:
+ *  - Query Parameter: Integer representing a SW Character
+ *
+ * Route Output:
+ * - List of strings, where each string represents the name of a vehicle used
+ *   by the character given by the query parameter
+ */
+server.get('/new/character/:id/vehicles', async (req, res, next) => {
+  const personResponse = await fetch(`${SWAPI_URL}/people/${req.params.id}`);
+  const personJson = await personResponse.json();
+
+  const vehicles = personJson.vehicles;
+  const vehicleNames = [];
+  for (let i = 0; i < vehicles.length; i++) {
+    const vehicleResponse = await fetch(vehicles[i]);
+    const vehicleJson = await vehicleResponse.json();
+    vehicleNames.push(vehicleJson.name);
+  }
+
+  res.send(vehicleNames);
+});
+
+/*
+ * Route Documentation for Reference Solution to Bonus Route 2
  *
  * Route Input:
  *  - Nothing
@@ -78,8 +112,50 @@ server.get('/allcharacters', async (req, res, next) => {
 
     url = data.next;
   }
-  console.log(people.length);
   res.send(people);
+});
+
+/*
+ * Since the route is supposed to extract a request body, we should make it
+ * a PUT route. Although it might make more sense to make it a GET, since we're
+ * "getting" a resource from the server, requests with bodies are traditionally
+ * crafted as POST routes.
+ *
+ * Route Documentation for Reference Solution to Bonus Route 3
+ *
+ * Route Input:
+ *  - List of integer ids corresponding to SW characters
+ *
+ * Route Output:
+ *  - List of strings corresponding to the unique vehicles used by requested
+ *    SW characters
+ *
+ */
+server.post('/uniquevehicles', async (req, res, next) => {
+  const resultObj = {};
+
+  /* Make list of all vehicle URLs to query for */
+  const vehicleUrlMap = {};
+  for (const id of req.body.ids) {
+    const personResponse = await fetch(`${SWAPI_URL}/people/${id}`);
+    const personJson = await personResponse.json();
+
+    for (const vehicle of personJson.vehicles) {
+      if (vehicleUrlMap[vehicle] !== true) {
+        vehicleUrlMap[vehicle] = true;
+      }
+    }
+  }
+
+  /* Iterate through map and obtain name using fetch */
+  const vehicleNames = [];
+  for (const vehicleUrl in vehicleUrlMap) {
+    const vehicleResponse = await fetch(vehicleUrl);
+    const vehicleJson = await vehicleResponse.json();
+    vehicleNames.push(vehicleJson.name);
+  }
+
+  res.send(vehicleNames);
 });
 
 /* Start server */
