@@ -25,7 +25,14 @@ server.get('/character/:id', (req, res, next) => {
 });
 
 /*
- * Route Documentation
+ * Route Documentation for Reference Solution
+ *
+ * Route Input:
+ *  - Query Parameter: Integer representing a SW Character
+ *
+ * Route Output:
+ * - List of strings, where each string represents the name of a vehicle used
+ *   by the character given by the query parameter
  */
 server.get('/character/:id/vehicles', (req, res, next) => {
   fetch(`${SWAPI_URL}/people/${req.params.id}`)

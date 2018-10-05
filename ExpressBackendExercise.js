@@ -7,6 +7,8 @@ const server = express();
 server.use(bodyParser.json({strict: false}));
 server.use(bodyParser.urlencoded({extended: false}));
 
+const SWAPI_URL = 'https://swapi.co/api';
+
 /* Route Input:
  *  - Query Parameter: Integer
  *
@@ -15,11 +17,11 @@ server.use(bodyParser.urlencoded({extended: false}));
  *    that integer
  */
 server.get('/character/:id', (req, res, next) => {
-  fetch(`https://swapi.co/api/people/${req.params.id}`)
-    .then(response => response.json())
-    .then(data => {
-      res.send(data);
-    });
+ fetch(`${SWAPI_URL}/people/${req.params.id}`)
+   .then(response => response.json())
+   .then(data => {
+     res.send(data);
+   });
 });
 
 /*
